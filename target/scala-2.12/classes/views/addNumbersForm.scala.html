@@ -1,0 +1,51 @@
+@()
+
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue@@2/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p>Let's add some numbers!</p>
+            <form>
+                <label for="number1">Number 1 </label><input id="number1" name="numero1" type="number" v-model.number="form.number1"  /><br />
+                <label for="number2">Number 2 </label><input id="number2" name="numero2" type="number" v-model.number="form.number2" /><br />
+                <input type="button" value="Sumar" v-on:click="addNumbers">
+            </form>
+            <p v-if="result !== null"> La suma es: {{result}} </p>
+
+        </div>
+        <script>
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    form: {
+                        number1: null,
+                        number2: null
+                    },
+                    result: null
+                },
+                methods: {
+                    addNumbers(){
+                    // Make a request for a user with a given ID
+                    let vm = this;
+                    axios.get('/add-numbers', {
+                                params: this.form
+                            })
+                            .then(function (response) {
+                                vm.result = response.data.total;
+                            })
+                            .catch(function (error) {
+                                // handle error
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

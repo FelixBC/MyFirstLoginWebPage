@@ -1,0 +1,153 @@
+@()
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <p> -Just playing around- </p>
+    <form v-on:submit.prevent>
+        <label for="number1">Number 1 </label>
+        <input id="number1" name="number1" type="number" v-model.number="form.number1"
+               v-on:keyup.prevent.enter="checkNumber"/>
+        <br/>
+        <input type="button" value="Hide" v-on:click="hideResponse">
+        <br/>
+        <input type="button" value="Check" v-on:click="checkNumber">
+        <br/>
+        <p v-if="result !== null"> The number is: {{result}} </p>
+        <div v-if="result == 'odd'">
+            <p> - Calculator - </p>
+            <label>Number 2: </label>
+            <label> {{form.number2}} </label>
+            <label v-if="result2 !== ''"> {{result2}}</label>
+            <br/>
+            <br/>
+            <br/>
+            <input type="button" value="+" v-on:click="signManager">
+            <input type="button" value="-" v-on:click="signManager">
+            <input type="button" value="/" v-on:click="signManager">
+            <input type="button" value="*" v-on:click="signManager">
+            <br/>
+            <input type="button" value="9" v-on:click="writeNumber">
+            <input type="button" value="8" v-on:click="writeNumber">
+            <input type="button" value="7" v-on:click="writeNumber">
+            <input type="button" value="Delete" v-on:click="doDelete">
+            <br/>
+            <input type="button" value="4" v-on:click="writeNumber">
+            <input type="button" value="5" v-on:click="writeNumber">
+            <input type="button" value="6" v-on:click="writeNumber">
+            <input type="button" value="Clear" v-on:click="doClear">
+            <br/>
+            <input type="button" value="1" v-on:click="writeNumber">
+            <input type="button" value="2" v-on:click="writeNumber">
+            <input type="button" value="3" v-on:click="writeNumber">
+            <input type="button" value="%" v-on:click="signManager">
+            <br/>
+            <input type="button" value="0" v-on:click="writeNumber">
+            <input type="button" value="." v-on:click="writeNumber">
+            <input type="button" value="    Enter   " v-on:click="calculateNumber">
+            <br/>
+        </div>
+    </form>
+</div>
+<script>
+    let app = new Vue({
+        el: '#app',
+        methods: {
+            signManager(event) {
+                const sign = event.target.value;
+                this.result2 += sign;
+            },
+            doClear() {
+                this.result2 = ""
+            },
+            writeNumber(event) {
+
+                const value = event.target.value;
+                this.result2 += value;
+
+            },
+            onEnter() {
+                console.log("enterPressed")
+            },
+            doDelete() {
+                axios.get('/calculator-delete', {
+                    params: this.form
+                })
+                    .then((response) => {
+                        this.result2 = response.data.result;
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+                    .then(() => {
+                        //always executed
+                    });
+            },
+            checkNumber() {
+                // Make a request for a user with a given ID
+                axios.get('/play-primo', {
+                    params: this.form
+                })
+                    .then((response) => {
+                        this.result = response.data.result;
+                    })
+                    .catch((error) => {
+                        // handle error
+                        console.error(error);
+                    })
+                    .then(() => {
+                        // always executed
+                    });
+            },
+            calculateNumber() {
+                axios.get('/play-primo-calculate', {
+                    params: this.form
+                })
+                    .then((response) => {
+                        this.result2 = response.data.result;
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+                    .then(() => {
+                        //always executed
+                    });
+            },
+
+            hideResponse() {
+                this.result = null
+            },
+        },
+        data: {
+            form: {
+                number1: null,
+                number2: '',
+            },
+            result: null,
+            result2: '',
+            sign: "+",
+            one: "1",
+            Two: "2",
+            three: "3",
+            four: "4",
+            five: "5",
+            six: "6",
+            seven: "7",
+            eight: "8",
+            nine: "9",
+            dot: "."
+
+
+        }
+
+    });
+
+</script>
+</body>
+</html>

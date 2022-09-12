@@ -1,0 +1,7 @@
+[0m[[0m[31merror[0m] [0m[0m/home/felix/Projects/play-scala-hello-world-tutorial/app/controllers/HomeController.scala:146:36: empty character literal[0m
+[0m[[0m[31merror[0m] [0m[0m    def username = userNames.where('')[0m
+[0m[[0m[31merror[0m] [0m[0m                                   ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/felix/Projects/play-scala-hello-world-tutorial/app/controllers/HomeController.scala:150:3: ')' expected but '}' found.[0m
+[0m[[0m[31merror[0m] [0m[0m  }[0m
+[0m[[0m[31merror[0m] [0m[0m  ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
